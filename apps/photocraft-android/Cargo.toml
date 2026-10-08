@@ -1,0 +1,39 @@
+[package]
+name = "photocraft-android"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[lib]
+name = "photocraft_android"
+crate-type = ["cdylib", "rlib"]
+
+[lints.rust]
+# Android's exported ABI and two JNI borrowed handles require isolated audited unsafe.
+# All editing, file handling and UI code remains safe Rust.
+unsafe_code = "deny"
+
+[lints.clippy]
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+todo = "deny"
+unimplemented = "deny"
+unreachable = "deny"
+
+[dependencies]
+photocraft-ui-egui.workspace = true
+photocraft-engine.workspace = true
+photocraft-io.workspace = true
+photocraft-format.workspace = true
+photocraft-doc.workspace = true
+serde_json.workspace = true
+egui.workspace = true
+log.workspace = true
+
+[target.'cfg(target_os = "android")'.dependencies]
+eframe = { workspace = true, features = ["default_fonts", "wgpu", "android-native-activity"] }
+android-activity = { version = "0.6", features = ["native-activity"] }
+android_logger = "0.15"
+jni = "0.21"
